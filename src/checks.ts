@@ -14,17 +14,25 @@ export const checkIfFieldIsValid = <T, K extends keyof T>(validationRules: Valid
   return { hasError, errors };
 };
 
-export const checkIfAllFieldsAreValid = <T>(formState: FormState<T>): boolean => {
+export const checkIfAllFieldsAreValid = <T>(formState: FormState<T>): FormState<T> => {
   const { fields, values, validationRules } = formState;
-  const errors = {} as {[K in keyof T]: boolean};
+  // const errors = {} as {[K in keyof T]: boolean};
 
   Object.keys(fields).forEach((name) => {
     const value = values[name as keyof T];
-    const { hasError } = checkIfFieldIsValid<T, keyof T>(validationRules[name as keyof T], value as T[keyof T] | null | '');
-    errors[name as keyof T] = hasError;
+    const { hasError, errors } = checkIfFieldIsValid<T, keyof T>(validationRules[name as keyof T], value as T[keyof T] | null | '');
+    formState.fields[name as keyof T] = {
+      ...formState.fields[name as keyof T],
+      hasError,
+      errors,
+      showError: hasError,
+      dirty: true,
+    };
   });
 
-  return Object.entries(errors).every(([name, value]) => !value);
+  formState.isValid = checkIfFormIsValid(formState);
+
+  return formState;
 };
 
 export const checkIfFormIsValid = <T>(formState: FormState<T>): boolean => {

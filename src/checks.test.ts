@@ -102,7 +102,7 @@ describe('checks', () => {
   });
 
   describe('checkIfAllFieldsAreValid', () => {
-    it('returns false if all fields do not pass validations', () => {
+    it('returns a formState with isValid false if all fields do not pass validations', () => {
       const formStateWithInvalidFields: FormState<TestValues> = {
         values: {
           testString: '',
@@ -111,7 +111,10 @@ describe('checks', () => {
         },
         fields: testFields,
         validationRules: {
-          testString: [validateIsRequired, validateLengthIsGreaterThanOrEqualToMin(2)],
+          testString: [
+            validateIsRequired,
+            validateLengthIsGreaterThanOrEqualToMin(2),
+          ],
           testBool: [validateIsRequired],
           testNumber: [validateIsRequired, validateLessThanOrEqualToMax(5)],
         },
@@ -119,10 +122,77 @@ describe('checks', () => {
         errorMessages: testErrorMessages,
       };
 
-      expect(checkIfAllFieldsAreValid(formStateWithInvalidFields)).toEqual(false);
+      expect(checkIfAllFieldsAreValid(formStateWithInvalidFields))
+        .toMatchInlineSnapshot(`
+        Object {
+          "errorMessages": Object {
+            "max": "This field exceeds the max value",
+            "maxLength": "This field exceeds the max length",
+            "min": "This field does not exceed the min value",
+            "minLength": "This field does not exceed the min length",
+            "pattern": "This field is does not match the correct pattern",
+            "required": "This field is required",
+          },
+          "fields": Object {
+            "testBool": Object {
+              "dirty": true,
+              "errors": Array [
+                "required",
+              ],
+              "hasError": true,
+              "isRequired": true,
+              "isValid": true,
+              "showError": true,
+              "touched": true,
+            },
+            "testNumber": Object {
+              "dirty": true,
+              "errors": Array [
+                "max",
+              ],
+              "hasError": true,
+              "isRequired": true,
+              "isValid": true,
+              "showError": true,
+              "touched": true,
+            },
+            "testString": Object {
+              "dirty": true,
+              "errors": Array [
+                "required",
+                "minLength",
+              ],
+              "hasError": true,
+              "isRequired": true,
+              "isValid": true,
+              "showError": true,
+              "touched": true,
+            },
+          },
+          "isValid": false,
+          "validationRules": Object {
+            "testBool": Array [
+              [Function],
+            ],
+            "testNumber": Array [
+              [Function],
+              [Function],
+            ],
+            "testString": Array [
+              [Function],
+              [Function],
+            ],
+          },
+          "values": Object {
+            "testBool": null,
+            "testNumber": 10,
+            "testString": "",
+          },
+        }
+      `);
     });
 
-    it('returns true if all fields pass validations', () => {
+    it('returns a formState with isValid true if all fields pass validations', () => {
       const formStateWithValidFields: FormState<TestValues> = {
         values: {
           testString: 'ok',
@@ -131,7 +201,10 @@ describe('checks', () => {
         },
         fields: testFields,
         validationRules: {
-          testString: [validateIsRequired, validateLengthIsGreaterThanOrEqualToMin(2)],
+          testString: [
+            validateIsRequired,
+            validateLengthIsGreaterThanOrEqualToMin(2),
+          ],
           testBool: [validateIsRequired],
           testNumber: [validateIsRequired, validateLessThanOrEqualToMax(5)],
         },
@@ -139,7 +212,67 @@ describe('checks', () => {
         errorMessages: testErrorMessages,
       };
 
-      expect(checkIfAllFieldsAreValid(formStateWithValidFields)).toEqual(true);
+      expect(checkIfAllFieldsAreValid(formStateWithValidFields))
+        .toMatchInlineSnapshot(`
+        Object {
+          "errorMessages": Object {
+            "max": "This field exceeds the max value",
+            "maxLength": "This field exceeds the max length",
+            "min": "This field does not exceed the min value",
+            "minLength": "This field does not exceed the min length",
+            "pattern": "This field is does not match the correct pattern",
+            "required": "This field is required",
+          },
+          "fields": Object {
+            "testBool": Object {
+              "dirty": true,
+              "errors": Array [],
+              "hasError": false,
+              "isRequired": true,
+              "isValid": true,
+              "showError": false,
+              "touched": true,
+            },
+            "testNumber": Object {
+              "dirty": true,
+              "errors": Array [],
+              "hasError": false,
+              "isRequired": true,
+              "isValid": true,
+              "showError": false,
+              "touched": true,
+            },
+            "testString": Object {
+              "dirty": true,
+              "errors": Array [],
+              "hasError": false,
+              "isRequired": true,
+              "isValid": true,
+              "showError": false,
+              "touched": true,
+            },
+          },
+          "isValid": true,
+          "validationRules": Object {
+            "testBool": Array [
+              [Function],
+            ],
+            "testNumber": Array [
+              [Function],
+              [Function],
+            ],
+            "testString": Array [
+              [Function],
+              [Function],
+            ],
+          },
+          "values": Object {
+            "testBool": true,
+            "testNumber": 5,
+            "testString": "ok",
+          },
+        }
+      `);
     });
   });
 
