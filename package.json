@@ -13,11 +13,16 @@
     "test": "jest --config jest.config.js"
   },
   "keywords": [
-    "react",
+    "form-validation",
+    "form-validator",
     "form",
+    "forms",
+    "hooks",
+    "react-hooks",
+    "react",
+    "typescript",
     "validation",
-    "validator",
-    "typescript"
+    "validator"
   ],
   "author": "Adam Butterfield",
   "license": "MIT",
