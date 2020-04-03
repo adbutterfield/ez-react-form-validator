@@ -9,6 +9,7 @@
     "build": "npm run build:modern && npm run build:min",
     "build:modern": "rollup -c",
     "build:min": "rollup -c rollup.min.config.js",
+    "bundlesize": "yarn build:min && bundlesize",
     "eslint": "eslint --ext .ts,.tsx ./src",
     "test": "jest --config jest.config.js"
   },
@@ -37,6 +38,7 @@
     "@types/react": "^16.9.29",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
+    "bundlesize": "^0.18.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-typescript": "^7.2.0",
     "eslint-config-react-app": "^5.2.1",
@@ -63,5 +65,11 @@
       "pre-commit": "npm run eslint",
       "pre=push": "npm test"
     }
-  }
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/ez-react-form-validator.min.es.js",
+      "maxSize": "5 kB"
+    }
+  ]
 }
