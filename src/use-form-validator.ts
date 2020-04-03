@@ -236,7 +236,7 @@ const useFormValidator = <T>(setup: ValidatorSetup<T>) => {
   return {
     fields: { ...formState.fields },
     isValid: formState.isValid,
-    values: formState.values,
+    values: { ...formState.values },
     handleChange,
     handleBlur,
     setValues: setNewValues,
