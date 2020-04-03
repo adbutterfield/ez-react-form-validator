@@ -6,7 +6,7 @@ export type Validation<T> = {
   max?: number;
   minLength?: number;
   maxLength?: number;
-  errors?: {
+  errorMessages?: {
     required?: string;
     pattern?: string;
     min?: string;

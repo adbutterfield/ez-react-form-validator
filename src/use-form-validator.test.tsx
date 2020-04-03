@@ -58,7 +58,7 @@ describe('useFormValidator', () => {
       stringWithMinLength: {
         required: true,
         minLength: 3,
-        errors: {
+        errorMessages: {
           minLength: 'too short',
         },
       },
@@ -134,7 +134,7 @@ describe('useFormValidator', () => {
       stringWithMaxLength: {
         required: true,
         maxLength: 3,
-        errors: {
+        errorMessages: {
           maxLength: 'too long',
         },
       },
@@ -210,7 +210,7 @@ describe('useFormValidator', () => {
       emailWithPattern: {
         required: true,
         pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        errors: {
+        errorMessages: {
           pattern: 'bad pattern',
         },
       },
@@ -279,7 +279,7 @@ describe('useFormValidator', () => {
       numberWithMin: {
         required: true,
         min: 3,
-        errors: {
+        errorMessages: {
           min: 'not enough',
         },
       },
@@ -355,7 +355,7 @@ describe('useFormValidator', () => {
       numberWithMax: {
         required: true,
         max: 3,
-        errors: {
+        errorMessages: {
           max: 'too much',
         },
       },
@@ -489,7 +489,7 @@ describe('useFormValidator', () => {
     expect(submit()).toBeDisabled();
     expect(isValid()).toHaveTextContent('false');
 
-    // CASE: Form should become valid when all fields are valid
+    // CASE: Form should become valid when all fields are valid (no need to blur)
     fireEvent.change(field2(), { target: { value: 'a' } });
     // Check that the error message is not displayed
     expect(field2Error()).toBeNull();
