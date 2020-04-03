@@ -2,6 +2,11 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest'
   },
+  globals: {
+    'ts-jest': {
+      tsConfig: 'tsconfig.jest.json',
+    },
+  },
   testRegex: '.+\.test\.tsx?$',
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   // Indicates whether the coverage information should be collected while executing the test
