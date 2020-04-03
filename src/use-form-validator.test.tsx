@@ -658,4 +658,51 @@ describe('useFormValidator', () => {
 
     expect(() => render(<TestComponent />)).toThrowError('A field can only have min/max OR minLength/maxLength validation');
   });
+
+  it('can manually be validated with validate function', async () => {
+    type FormValues = {
+      field1: string;
+    };
+
+    const formConfig: ValidatorSetup<FormValues> = {
+      field1: {
+        minLength: 10,
+      },
+      field2: {
+        maxLength: 10,
+      },
+    };
+
+    const TestComponent: React.FC = () => {
+      const { values, validate, fields } = useFormValidator<FormValues>(formConfig);
+
+      return (
+        <form>
+          <label htmlFor="field1">field1
+            <input id="field1" name="field1" value={values.field1 || ''} readOnly />
+          </label>
+          {fields.field1?.showError && <p data-testid="field1-error">{fields.field1.errors[0]}</p>}
+          <label htmlFor="field2">field2
+            <input id="field2" name="field2" value={values.field2 || ''} readOnly />
+          </label>
+          {fields.field2?.showError && <p data-testid="field2-error">{fields.field2.errors[0]}</p>}
+          <button onClick={validate} type="button">validate</button>
+        </form>
+      );
+    };
+
+    const { queryByTestId, getByText } = render(<TestComponent />);
+    const field1Error = () => queryByTestId('field1-error');
+    const field2Error = () => queryByTestId('field2-error');
+    const button = () => getByText('validate');
+
+    // CASE: Errors should not be displayed initially if defaultValue is invalid
+    expect(field1Error()).toBeNull();
+    expect(field2Error()).toBeNull();
+
+    // CASE: Errors should be displayed after triggering validate on invalid fields
+    fireEvent.click(button());
+    expect(field1Error()).not.toBeNull();
+    expect(field2Error()).not.toBeNull();
+  });
 });
