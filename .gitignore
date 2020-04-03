@@ -1,4 +1,10 @@
-node_modules
-dist
-coverage
+.DS_Store
+.eslintcache
+.npm
 .vscode
+*.log
+*.tgz
+coverage
+dist
+node_modules
+npm-debug.log*
