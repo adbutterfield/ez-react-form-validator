@@ -241,6 +241,7 @@ const useFormValidator = <T>(setup: ValidatorSetup<T>) => {
     handleBlur,
     setValues: setNewValues,
     setupComplete,
+    validate: () => checkIfAllFieldsAreValid(formState),
   };
 };
 
