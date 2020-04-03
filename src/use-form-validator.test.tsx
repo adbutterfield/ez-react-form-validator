@@ -109,6 +109,7 @@ describe('useFormValidator', () => {
     expect(stringWithMinLengthError()).not.toBeNull();
     // Check that the field does have an error
     expect(stringWithMinLengthHasError()).not.toBeNull();
+    fireEvent.blur(stringWithMinLength());
 
     // CASE: A field has no errors, once it reaches the valid state
     fireEvent.change(stringWithMinLength(), { target: { value: 'aaa' } });
