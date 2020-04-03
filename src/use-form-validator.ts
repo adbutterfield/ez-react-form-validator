@@ -216,7 +216,6 @@ const useFormValidator = <T>(setup: ValidatorSetup<T>) => {
   const handleBlur = (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const newFormState = cloneFormState(formState);
     const { name } = event.target;
-
     const field = newFormState.fields[name as keyof T];
 
     // Only need to run on blur if the field has not been blurred once (touched === false)
