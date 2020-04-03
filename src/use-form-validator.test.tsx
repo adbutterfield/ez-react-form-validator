@@ -641,7 +641,7 @@ describe('useFormValidator', () => {
     };
 
     const TestComponent: React.FC = () => {
-      const { values, fields } = useFormValidator<FormValues>(formConfig);
+      const { values } = useFormValidator<FormValues>(formConfig);
 
       return (
         <form>
