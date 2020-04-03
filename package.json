@@ -46,5 +46,11 @@
     "ts-jest": "^25.3.0",
     "typescript": "^3.8.3"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run eslint",
+      "pre=push": "npm test"
+    }
+  }
 }
