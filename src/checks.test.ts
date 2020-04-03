@@ -55,7 +55,7 @@ const testErrorMessages = {
 type TestValues = {
   testString: string;
   testArray: any[];
-  testObject: {[key: string]: any};
+  testObject: { [key: string]: any };
   testBool: boolean;
   testNull: null;
   testNumber: number;
@@ -65,29 +65,34 @@ type TestValues = {
 describe('checks', () => {
   describe('checkIfFieldIsValid', () => {
     it('returns false if the field does not pass single validation', () => {
-      const validationRules = [
-        validateGreaterThanOrEqualToMin(10),
-      ];
+      const validationRules = [validateGreaterThanOrEqualToMin(10)];
 
-      expect(checkIfFieldIsValid(validationRules, 0)).toEqual({"errors": ["min"], "hasError": true});
+      expect(checkIfFieldIsValid(validationRules, 0)).toEqual({
+        errors: ['min'],
+        hasError: true,
+      });
     });
 
     it('returns false if the field does not pass multiple validations', () => {
       const validationRules = [
         validateIsRequired,
         validateLengthIsGreaterThanOrEqualToMin(1),
-        validatePattern(/\d{2}/)
+        validatePattern(/\d{2}/),
       ];
 
-      expect(checkIfFieldIsValid(validationRules, '')).toEqual({"errors": ["required", "minLength", "pattern"], "hasError": true});
+      expect(checkIfFieldIsValid(validationRules, '')).toEqual({
+        errors: ['required', 'minLength', 'pattern'],
+        hasError: true,
+      });
     });
 
     it('returns true if the field does not passes single validation', () => {
-      const validationRules = [
-        validateLengthIsGreaterThanOrEqualToMin(1),
-      ];
+      const validationRules = [validateLengthIsGreaterThanOrEqualToMin(1)];
 
-      expect(checkIfFieldIsValid(validationRules, 'ok')).toEqual({"errors": [], "hasError": false});
+      expect(checkIfFieldIsValid(validationRules, 'ok')).toEqual({
+        errors: [],
+        hasError: false,
+      });
     });
 
     it('returns true if the field passes multiple validations', () => {
@@ -97,7 +102,10 @@ describe('checks', () => {
         validatePattern(/\d{2}/),
       ];
 
-      expect(checkIfFieldIsValid(validationRules, '11')).toEqual({"errors": [], "hasError": false});
+      expect(checkIfFieldIsValid(validationRules, '11')).toEqual({
+        errors: [],
+        hasError: false,
+      });
     });
   });
 
@@ -300,7 +308,10 @@ describe('checks', () => {
           },
         },
         validationRules: {
-          testString: [validateIsRequired, validateLengthIsGreaterThanOrEqualToMin(2)],
+          testString: [
+            validateIsRequired,
+            validateLengthIsGreaterThanOrEqualToMin(2),
+          ],
           testBool: [],
           testNumber: [validateIsRequired, validateLessThanOrEqualToMax(5)],
         },
@@ -311,7 +322,7 @@ describe('checks', () => {
       expect(checkIfFormIsValid(formStateWithInvalidFields)).toEqual(false);
     });
 
-    it('returns false if fields have required fields aren\'t also dirty', () => {
+    it("returns false if fields have required fields aren't also dirty", () => {
       const formStateWithInvalidFields: FormState<TestValues> = {
         values: {
           testString: '',
@@ -364,7 +375,10 @@ describe('checks', () => {
           },
         },
         validationRules: {
-          testString: [validateIsRequired, validateLengthIsGreaterThanOrEqualToMin(2)],
+          testString: [
+            validateIsRequired,
+            validateLengthIsGreaterThanOrEqualToMin(2),
+          ],
           testBool: [],
           testNumber: [validateIsRequired, validateLessThanOrEqualToMax(5)],
         },
