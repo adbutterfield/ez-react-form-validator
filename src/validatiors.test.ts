@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   validateGreaterThanOrEqualToMin,
   validateLessThanOrEqualToMax,
@@ -34,7 +33,7 @@ describe('validators', () => {
 
       expect(result).toEqual({
         type: 'minLength',
-        isValid: false
+        isValid: false,
       });
     });
 
@@ -48,7 +47,7 @@ describe('validators', () => {
 
       expect(result).toEqual({
         type: 'minLength',
-        isValid: true
+        isValid: true,
       });
     });
 
@@ -62,7 +61,7 @@ describe('validators', () => {
 
       expect(result).toEqual({
         type: 'minLength',
-        isValid: true
+        isValid: true,
       });
     });
   });
@@ -82,7 +81,7 @@ describe('validators', () => {
 
       expect(result).toEqual({
         type: 'maxLength',
-        isValid: false
+        isValid: false,
       });
     });
 
@@ -96,7 +95,7 @@ describe('validators', () => {
 
       expect(result).toEqual({
         type: 'maxLength',
-        isValid: true
+        isValid: true,
       });
     });
 
@@ -110,7 +109,7 @@ describe('validators', () => {
 
       expect(result).toEqual({
         type: 'maxLength',
-        isValid: true
+        isValid: true,
       });
     });
   });
@@ -130,7 +129,7 @@ describe('validators', () => {
 
       expect(result).toEqual({
         type: 'min',
-        isValid: false
+        isValid: false,
       });
     });
 
@@ -144,7 +143,7 @@ describe('validators', () => {
 
       expect(result).toEqual({
         type: 'min',
-        isValid: true
+        isValid: true,
       });
     });
 
@@ -158,7 +157,7 @@ describe('validators', () => {
 
       expect(result).toEqual({
         type: 'min',
-        isValid: true
+        isValid: true,
       });
     });
   });
@@ -178,7 +177,7 @@ describe('validators', () => {
 
       expect(result).toEqual({
         type: 'max',
-        isValid: false
+        isValid: false,
       });
     });
 
@@ -192,7 +191,7 @@ describe('validators', () => {
 
       expect(result).toEqual({
         type: 'max',
-        isValid: true
+        isValid: true,
       });
     });
 
@@ -206,7 +205,7 @@ describe('validators', () => {
 
       expect(result).toEqual({
         type: 'max',
-        isValid: true
+        isValid: true,
       });
     });
   });
@@ -215,54 +214,54 @@ describe('validators', () => {
     it('returns false on empty string', () => {
       expect(validateIsRequired<TestValues>('')).toEqual({
         type: 'required',
-        isValid: false
+        isValid: false,
       });
     });
 
     it('returns false on null', () => {
       expect(validateIsRequired<TestValues>(null)).toEqual({
         type: 'required',
-        isValid: false
+        isValid: false,
       });
     });
 
     it('returns false on undefined', () => {
       expect(validateIsRequired<TestValues>(undefined)).toEqual({
         type: 'required',
-        isValid: false
+        isValid: false,
       });
     });
 
     it('returns true on a valid string', () => {
       expect(validateIsRequired<TestValues>('valid')).toEqual({
         type: 'required',
-        isValid: true
+        isValid: true,
       });
     });
 
     it('returns true on a number', () => {
       expect(validateIsRequired<TestValues>(1)).toEqual({
         type: 'required',
-        isValid: true
+        isValid: true,
       });
     });
 
     it('returns true on zero', () => {
       expect(validateIsRequired<TestValues>(0)).toEqual({
         type: 'required',
-        isValid: true
+        isValid: true,
       });
     });
 
     it('returns true on booleans', () => {
       expect(validateIsRequired<TestValues>(true)).toEqual({
         type: 'required',
-        isValid: true
+        isValid: true,
       });
 
       expect(validateIsRequired<TestValues>(false)).toEqual({
         type: 'required',
-        isValid: true
+        isValid: true,
       });
     });
   });
@@ -277,7 +276,7 @@ describe('validators', () => {
 
       expect(validatorFn('no good')).toEqual({
         type: 'pattern',
-        isValid: false
+        isValid: false,
       });
     });
 
@@ -286,9 +285,8 @@ describe('validators', () => {
 
       expect(validatorFn('match')).toEqual({
         type: 'pattern',
-        isValid: true
+        isValid: true,
       });
     });
-
   });
 });

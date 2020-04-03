@@ -1,7 +1,5 @@
-// @ts-nocheck
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-// import { act } from '@testing-library/react-hooks';
 import '@testing-library/jest-dom/extend-expect';
 import useFormValidator, { ValidatorSetup } from './index';
 
@@ -11,17 +9,11 @@ describe('useFormValidator', () => {
       requiredDefaultError: string;
     };
 
-    const formConfig: ValidatorSetup<FormValues> = {
-      requiredDefaultError: {
-        required: true,
-      },
-    };
-
     type TestComponentProps = {
-      formConfig: ValidatorSetup
+      formConfig: ValidatorSetup<FormValues>
     };
 
-    const TestComponent: React.FC<TestComponentProps> = () => {
+    const TestComponent: React.FC<TestComponentProps> = ({ formConfig }) => {
       const { values, handleChange, handleBlur, fields } = useFormValidator<FormValues>(formConfig);
 
       return (
@@ -33,6 +25,12 @@ describe('useFormValidator', () => {
           {fields.requiredDefaultError?.showError && <p data-testid="requiredDefaultError-error">{fields.requiredDefaultError.errors[0]}</p>}
         </form>
       );
+    };
+
+    const formConfig: ValidatorSetup<FormValues> = {
+      requiredDefaultError: {
+        required: true,
+      },
     };
 
     const { queryByTestId, getByLabelText } = render(<TestComponent formConfig={formConfig} />);
@@ -54,17 +52,11 @@ describe('useFormValidator', () => {
       stringWithMinLength: string;
     };
 
-    const formConfig: ValidatorSetup<FormValues> = {
-      stringWithMinLength: {
-        required: true,
-        minLength: 3,
-        errorMessages: {
-          minLength: 'too short',
-        },
-      },
+    type TestComponentProps = {
+      formConfig: ValidatorSetup<FormValues>
     };
 
-    const TestComponent: React.FC = () => {
+    const TestComponent: React.FC<TestComponentProps> = ({ formConfig }) => {
       const { values, handleChange, handleBlur, fields } = useFormValidator<FormValues>(formConfig);
 
       return (
@@ -77,6 +69,16 @@ describe('useFormValidator', () => {
           {fields.stringWithMinLength?.showError && <p data-testid="stringWithMinLength-error">{fields.stringWithMinLength.errors[0]}</p>}
         </form>
       );
+    };
+
+    const formConfig: ValidatorSetup<FormValues> = {
+      stringWithMinLength: {
+        required: true,
+        minLength: 3,
+        errorMessages: {
+          minLength: 'too short',
+        },
+      },
     };
 
     const { queryByTestId, getByLabelText } = render(<TestComponent formConfig={formConfig} />);
@@ -567,10 +569,10 @@ describe('useFormValidator', () => {
           {setupComplete && (
           <form>
             <label htmlFor="field1">field1
-              <input id="field1" name="field1" value={values.field1} readOnly />
+              <input id="field1" name="field1" value={String(values.field1)} readOnly />
             </label>
             <label htmlFor="field2">field2
-              <input id="field2" name="field2" value={values.field2} readOnly />
+              <input id="field2" name="field2" value={String(values.field2)} readOnly />
             </label>
           </form>
           )}
@@ -628,6 +630,7 @@ describe('useFormValidator', () => {
   it('throws an error if a field has both min OR max AND minLength OR maxLength validations', async () => {
     type FormValues = {
       field1: string;
+      field2: string;
     };
 
     const formConfig: ValidatorSetup<FormValues> = {
@@ -662,6 +665,7 @@ describe('useFormValidator', () => {
   it('can manually be validated with validate function', async () => {
     type FormValues = {
       field1: string;
+      field2: string;
     };
 
     const formConfig: ValidatorSetup<FormValues> = {
