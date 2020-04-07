@@ -170,7 +170,7 @@ describe('checks', () => {
             "testBool": Object {
               "dirty": true,
               "errors": Array [
-                "required",
+                "This field is required",
               ],
               "hasError": true,
               "isRequired": true,
@@ -181,7 +181,7 @@ describe('checks', () => {
             "testNumber": Object {
               "dirty": true,
               "errors": Array [
-                "max",
+                "This field exceeds the max value",
               ],
               "hasError": true,
               "isRequired": true,
@@ -192,8 +192,8 @@ describe('checks', () => {
             "testString": Object {
               "dirty": true,
               "errors": Array [
-                "required",
-                "minLength",
+                "This field is required",
+                "This field does not exceed the min length",
               ],
               "hasError": true,
               "isRequired": true,
