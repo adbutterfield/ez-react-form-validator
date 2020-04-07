@@ -1,7 +1,7 @@
 {
   "name": "ez-react-form-validator",
   "version": "1.0.0",
-  "description": "Easy to use, slightly opinionated, form validator for React using hooks.",
+  "description": "Simple, easy to use, form validator for React using hooks.",
   "main": "dist/ez-react-form-validator.js",
   "module": "dist/ez-react-form-validator.es.js",
   "types": "dist/index.d.ts",
