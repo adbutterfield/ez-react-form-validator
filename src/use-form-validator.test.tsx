@@ -36,7 +36,7 @@ describe('useFormValidator', () => {
 
     const { queryByTestId, getByLabelText } = render(<TestComponent formConfig={formConfig} />);
     const requiredDefaultError = (): HTMLElement => getByLabelText('requiredDefaultError');
-    const requiredDefaultErrorError = (): HTMLElement => queryByTestId('requiredDefaultError-error');
+    const requiredDefaultErrorError = (): HTMLElement | null => queryByTestId('requiredDefaultError-error');
 
     // CASE: Expect error message not be present initially
     expect(requiredDefaultErrorError()).toBeNull();
@@ -85,8 +85,8 @@ describe('useFormValidator', () => {
 
     const { queryByTestId, getByLabelText } = render(<TestComponent formConfig={formConfig} />);
     const stringWithMinLength = (): HTMLElement => getByLabelText('stringWithMinLength');
-    const stringWithMinLengthError = (): HTMLElement => queryByTestId('stringWithMinLength-error');
-    const stringWithMinLengthHasError = (): HTMLElement => queryByTestId('stringWithMinLength-hasError');
+    const stringWithMinLengthError = (): HTMLElement | null => queryByTestId('stringWithMinLength-error');
+    const stringWithMinLengthHasError = (): HTMLElement | null => queryByTestId('stringWithMinLength-hasError');
 
     // CASE: Expect error message to not be present initially
     expect(stringWithMinLengthError()).toBeNull();
@@ -163,8 +163,8 @@ describe('useFormValidator', () => {
 
     const { queryByTestId, getByLabelText } = render(<TestComponent />);
     const stringWithMaxLength = (): HTMLElement => getByLabelText('stringWithMaxLength');
-    const stringWithMaxLengthError = (): HTMLElement => queryByTestId('stringWithMaxLength-error');
-    const stringWithMaxLengthHasError = (): HTMLElement => queryByTestId('stringWithMaxLength-hasError');
+    const stringWithMaxLengthError = (): HTMLElement | null => queryByTestId('stringWithMaxLength-error');
+    const stringWithMaxLengthHasError = (): HTMLElement | null => queryByTestId('stringWithMaxLength-hasError');
 
     // CASE: Expect error message to not be present initially
     expect(stringWithMaxLengthError()).toBeNull();
@@ -240,8 +240,8 @@ describe('useFormValidator', () => {
 
     const { queryByTestId, getByLabelText } = render(<TestComponent />);
     const emailWithPattern = (): HTMLElement => getByLabelText('emailWithPattern');
-    const emailWithPatternError = (): HTMLElement => queryByTestId('emailWithPattern-error');
-    const emailWithPatternHasError = (): HTMLElement => queryByTestId('emailWithPattern-hasError');
+    const emailWithPatternError = (): HTMLElement | null => queryByTestId('emailWithPattern-error');
+    const emailWithPatternHasError = (): HTMLElement | null => queryByTestId('emailWithPattern-hasError');
 
     // CASE: Expect error message to not be present initially
     expect(emailWithPatternError()).toBeNull();
@@ -310,8 +310,8 @@ describe('useFormValidator', () => {
 
     const { queryByTestId, getByLabelText } = render(<TestComponent />);
     const numberWithMin = (): HTMLElement => getByLabelText('numberWithMin');
-    const numberWithMinError = (): HTMLElement => queryByTestId('numberWithMin-error');
-    const numberWithMinHasError = (): HTMLElement => queryByTestId('numberWithMin-hasError');
+    const numberWithMinError = (): HTMLElement | null => queryByTestId('numberWithMin-error');
+    const numberWithMinHasError = (): HTMLElement | null => queryByTestId('numberWithMin-hasError');
 
     // CASE: Expect error message to not be present initially
     expect(numberWithMinError()).toBeNull();
@@ -387,8 +387,8 @@ describe('useFormValidator', () => {
 
     const { queryByTestId, getByLabelText } = render(<TestComponent />);
     const numberWithMax = (): HTMLElement => getByLabelText('numberWithMax');
-    const numberWithMaxError = (): HTMLElement => queryByTestId('numberWithMax-error');
-    const numberWithMaxHasError = (): HTMLElement => queryByTestId('numberWithMax-hasError');
+    const numberWithMaxError = (): HTMLElement | null => queryByTestId('numberWithMax-error');
+    const numberWithMaxHasError = (): HTMLElement | null => queryByTestId('numberWithMax-hasError');
 
     // CASE: Expect error message to not be present initially
     expect(numberWithMaxError()).toBeNull();
@@ -474,12 +474,12 @@ describe('useFormValidator', () => {
 
     const { getByLabelText, getByText, queryByTestId } = render(<TestComponent />);
     const field1 = (): HTMLElement => getByLabelText('field1');
-    const field1Error = (): HTMLElement => queryByTestId('field1-error');
-    const field1HasError = (): HTMLElement => queryByTestId('field1-hasError');
+    const field1Error = (): HTMLElement | null => queryByTestId('field1-error');
+    const field1HasError = (): HTMLElement | null => queryByTestId('field1-hasError');
     const field2 = (): HTMLElement => getByLabelText('field2');
-    const field2Error = (): HTMLElement => queryByTestId('field2-error');
-    const field2HasError = (): HTMLElement => queryByTestId('field2-hasError');
-    const isValid = (): HTMLElement => queryByTestId('isValid');
+    const field2Error = (): HTMLElement | null => queryByTestId('field2-error');
+    const field2HasError = (): HTMLElement | null => queryByTestId('field2-hasError');
+    const isValid = (): HTMLElement | null => queryByTestId('isValid');
     const submit = (): HTMLElement => getByText('submit');
 
     // CASE: Form should be invalid initially
@@ -633,8 +633,8 @@ describe('useFormValidator', () => {
     };
 
     const { queryByTestId } = render(<TestComponent />);
-    const field1Error = (): HTMLElement => queryByTestId('field1-error');
-    const field1HasError = (): HTMLElement => queryByTestId('field1-hasError');
+    const field1Error = (): HTMLElement | null => queryByTestId('field1-error');
+    const field1HasError = (): HTMLElement | null => queryByTestId('field1-hasError');
 
     // CASE: Errors should be displayed initially if defaultValue is invalid
     expect(field1Error()).not.toBeNull();
@@ -719,8 +719,8 @@ describe('useFormValidator', () => {
     };
 
     const { queryByTestId, getByText } = render(<TestComponent />);
-    const field1Error = (): HTMLElement => queryByTestId('field1-error');
-    const field2Error = (): HTMLElement => queryByTestId('field2-error');
+    const field1Error = (): HTMLElement | null => queryByTestId('field1-error');
+    const field2Error = (): HTMLElement | null => queryByTestId('field2-error');
     const button = (): HTMLElement => getByText('validate');
 
     // CASE: Errors should not be displayed initially if defaultValue is invalid
