@@ -734,4 +734,68 @@ describe('useFormValidator', () => {
     expect(field2Error()).not.toBeNull();
     expect(field2Error()).toHaveTextContent('This field exceeds the max length');
   });
+
+  it('can be reset to the initial state with the reset function', () => {
+    type FormValues = {
+      field1: string;
+      field2: string;
+    };
+
+    const formConfig: ValidatorSetup<FormValues> = {
+      field1: {
+        minLength: 10,
+      },
+      field2: {
+        maxLength: 10,
+      },
+    };
+
+    const TestComponent: React.FC = () => {
+      const { values, reset, fields, handleBlur, handleChange } = useFormValidator<FormValues>(formConfig);
+
+      return (
+        <form>
+          <label htmlFor="field1">
+            field1
+            <input id="field1" name="field1" value={values.field1 || ''} onChange={handleChange} onBlur={handleBlur} />
+          </label>
+          {fields.field1?.showError && <p data-testid="field1-error">{fields.field1.errors[0]}</p>}
+          <label htmlFor="field2">
+            field2
+            <input id="field2" name="field2" value={values.field2 || ''} onChange={handleChange} onBlur={handleBlur} />
+          </label>
+          {fields.field2?.showError && <p data-testid="field2-error">{fields.field2.errors[0]}</p>}
+          <button onClick={reset} type="button">
+            reset
+          </button>
+        </form>
+      );
+    };
+
+    const { queryByTestId, getByText, getByLabelText } = render(<TestComponent />);
+    const field1 = (): HTMLElement => getByLabelText('field1');
+    const field2 = (): HTMLElement => getByLabelText('field2');
+    const field1Error = (): HTMLElement | null => queryByTestId('field1-error');
+    const field2Error = (): HTMLElement | null => queryByTestId('field2-error');
+    const button = (): HTMLElement => getByText('reset');
+
+    // CASE: Errors should not be displayed initially if defaultValue is invalid
+    expect(field1Error()).toBeNull();
+    expect(field2Error()).toBeNull();
+
+    // CASE: Errors should be displayed after blurring on invalid fields
+    fireEvent.change(field1(), { target: { value: 'a' } });
+    fireEvent.blur(field1());
+    fireEvent.change(field2(), { target: { value: 'aaaaaaaaaaa' } });
+    fireEvent.blur(field2());
+    expect(field1Error()).not.toBeNull();
+    expect(field2Error()).not.toBeNull();
+
+    // CASE: Calling the reset function should reset values and errors
+    fireEvent.click(button());
+    expect(field1Error()).toBeNull();
+    expect(field2Error()).toBeNull();
+    expect(field1().getAttribute('value')).toBe('');
+    expect(field2().getAttribute('value')).toBe('');
+  });
 });
