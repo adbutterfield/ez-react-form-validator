@@ -80,10 +80,50 @@ const getValidationFns = <T>(validations: Validation<T>): ValidatorFn<T, keyof T
 
 const useFormValidator = <T>(setup: ValidatorSetup<T>) => {
   const [formState, setFormState] = useState<FormState<T>>(defaultFormState as FormState<T>);
+  const [initialSetup, setInitialSetup] = useState<ValidatorSetup<T>>();
   const [setupComplete, setSetupComplete] = useState(false);
   const [newValues, setNewValues] = useState<{ [K in keyof T]?: T[K] } | null>(null);
 
   useEffect(() => {
+    setInitialSetup(setup);
+    const newFormState = runSetup(setup);
+    if (newFormState) {
+      setFormState(newFormState);
+      setSetupComplete(true);
+    }
+  }, [setup]);
+
+  useEffect(() => {
+    if (setupComplete && newValues) {
+      const newFormState = cloneFormState(formState);
+
+      Object.entries(newValues).forEach(([name, value]) => {
+        // Check if field is valid
+        const { hasError, errors } = checkIfFieldIsValid(newFormState.validationRules[name as keyof T], value as T[keyof T] | null | '');
+
+        // Set new value
+        newFormState.values[name as keyof T] = value as T[keyof T] | null | '';
+
+        // Set the field
+        newFormState.fields[name as keyof T] = {
+          ...newFormState.fields[name as keyof T],
+          dirty: true,
+          hasError,
+          showError: hasError,
+          isValid: !hasError,
+          errors: hasError ? getErrorMessages(errors, newFormState.errorMessages[name as keyof T]) : [],
+        };
+      });
+
+      // Check if the form is valid
+      newFormState.isValid = checkIfFormIsValid<T>(newFormState);
+
+      setFormState(newFormState);
+      setNewValues(null);
+    }
+  }, [setupComplete, newValues]);
+
+  const runSetup = (validatorSetup: ValidatorSetup<T>) => {
     const newFormState = {
       values: {},
       fields: {},
@@ -92,7 +132,7 @@ const useFormValidator = <T>(setup: ValidatorSetup<T>) => {
       errorMessages: {},
     } as FormState<T>;
 
-    Object.entries<Validation<T>>(setup).forEach(([name, validations]) => {
+    Object.entries<Validation<T>>(validatorSetup).forEach(([name, validations]) => {
       const {
         defaultValue = null,
         errorMessages,
@@ -137,40 +177,17 @@ const useFormValidator = <T>(setup: ValidatorSetup<T>) => {
 
     // Check if the form is valid
     newFormState.isValid = checkIfFormIsValid<T>(newFormState);
+    return newFormState;
+  };
 
-    setFormState(newFormState);
-    setSetupComplete(true);
-  }, []);
-
-  useEffect(() => {
-    if (setupComplete && newValues) {
-      const newFormState = cloneFormState(formState);
-
-      Object.entries(newValues).forEach(([name, value]) => {
-        // Check if field is valid
-        const { hasError, errors } = checkIfFieldIsValid(newFormState.validationRules[name as keyof T], value as T[keyof T] | null | '');
-
-        // Set new value
-        newFormState.values[name as keyof T] = value as T[keyof T] | null | '';
-
-        // Set the field
-        newFormState.fields[name as keyof T] = {
-          ...newFormState.fields[name as keyof T],
-          dirty: true,
-          hasError,
-          showError: hasError,
-          isValid: !hasError,
-          errors: hasError ? getErrorMessages(errors, newFormState.errorMessages[name as keyof T]) : [],
-        };
-      });
-
-      // Check if the form is valid
-      newFormState.isValid = checkIfFormIsValid<T>(newFormState);
-
-      setFormState(newFormState);
-      setNewValues(null);
+  const reset = () => {
+    if (initialSetup) {
+      const newFormState = runSetup(initialSetup);
+      if (newFormState) {
+        setFormState(newFormState);
+      }
     }
-  }, [setupComplete, newValues]);
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const newFormState = cloneFormState(formState);
@@ -241,6 +258,7 @@ const useFormValidator = <T>(setup: ValidatorSetup<T>) => {
     setValues: setNewValues,
     setupComplete,
     validate: () => setFormState(checkIfAllFieldsAreValid<T>(cloneFormState(formState))),
+    reset,
   };
 };
 
