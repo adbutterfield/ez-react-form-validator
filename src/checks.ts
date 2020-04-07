@@ -1,6 +1,6 @@
-import { ValidatorFn, FormState, Field, ErrorTypes } from '../types';
+import { ValidatorFn, FormState, Field, ErrorTypes } from './types';
 
-export const checkIfFieldIsValid = <T, K extends keyof T>(validationRules: ValidatorFn<T, K>[], value: T[K] | null | ''): { hasError: boolean, errors: ErrorTypes[] } => {
+export const checkIfFieldIsValid = <T, K extends keyof T>(validationRules: ValidatorFn<T, K>[], value: T[K] | null | ''): { hasError: boolean; errors: ErrorTypes[] } => {
   let hasError = false;
   const errors: ErrorTypes[] = [];
   validationRules.forEach((validation) => {

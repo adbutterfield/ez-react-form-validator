@@ -4,13 +4,13 @@ import '@testing-library/jest-dom/extend-expect';
 import useFormValidator, { ValidatorSetup } from './index';
 
 describe('useFormValidator', () => {
-  it('validates a required field', async () => {
+  it('validates a required field', () => {
     type FormValues = {
       requiredDefaultError: string;
     };
 
     type TestComponentProps = {
-      formConfig: ValidatorSetup<FormValues>
+      formConfig: ValidatorSetup<FormValues>;
     };
 
     const TestComponent: React.FC<TestComponentProps> = ({ formConfig }) => {
@@ -19,7 +19,8 @@ describe('useFormValidator', () => {
       return (
         <form>
           {/* required field with default error message */}
-          <label htmlFor="requiredDefaultError">requiredDefaultError
+          <label htmlFor="requiredDefaultError">
+            requiredDefaultError
             <input id="requiredDefaultError" name="requiredDefaultError" value={values.requiredDefaultError || ''} onChange={handleChange} onBlur={handleBlur} />
           </label>
           {fields.requiredDefaultError?.showError && <p data-testid="requiredDefaultError-error">{fields.requiredDefaultError.errors[0]}</p>}
@@ -34,8 +35,8 @@ describe('useFormValidator', () => {
     };
 
     const { queryByTestId, getByLabelText } = render(<TestComponent formConfig={formConfig} />);
-    const requiredDefaultError = () => getByLabelText('requiredDefaultError');
-    const requiredDefaultErrorError = () => queryByTestId('requiredDefaultError-error');
+    const requiredDefaultError = (): HTMLElement => getByLabelText('requiredDefaultError');
+    const requiredDefaultErrorError = (): HTMLElement => queryByTestId('requiredDefaultError-error');
 
     // CASE: Expect error message not be present initially
     expect(requiredDefaultErrorError()).toBeNull();
@@ -47,13 +48,13 @@ describe('useFormValidator', () => {
     expect(requiredDefaultErrorError()).toHaveTextContent('This field is required');
   });
 
-  it('validates a field with minLength', async () => {
+  it('validates a field with minLength', () => {
     type FormValues = {
       stringWithMinLength: string;
     };
 
     type TestComponentProps = {
-      formConfig: ValidatorSetup<FormValues>
+      formConfig: ValidatorSetup<FormValues>;
     };
 
     const TestComponent: React.FC<TestComponentProps> = ({ formConfig }) => {
@@ -62,7 +63,8 @@ describe('useFormValidator', () => {
       return (
         <form>
           {/* min length field with custom error message */}
-          <label htmlFor="stringWithMinLength">stringWithMinLength
+          <label htmlFor="stringWithMinLength">
+            stringWithMinLength
             <input id="stringWithMinLength" name="stringWithMinLength" value={values.stringWithMinLength || ''} onChange={handleChange} onBlur={handleBlur} />
           </label>
           {fields.stringWithMinLength?.hasError && <p data-testid="stringWithMinLength-hasError">stringWithMinLength has error</p>}
@@ -82,9 +84,9 @@ describe('useFormValidator', () => {
     };
 
     const { queryByTestId, getByLabelText } = render(<TestComponent formConfig={formConfig} />);
-    const stringWithMinLength = () => getByLabelText('stringWithMinLength');
-    const stringWithMinLengthError = () => queryByTestId('stringWithMinLength-error');
-    const stringWithMinLengthHasError = () => queryByTestId('stringWithMinLength-hasError');
+    const stringWithMinLength = (): HTMLElement => getByLabelText('stringWithMinLength');
+    const stringWithMinLengthError = (): HTMLElement => queryByTestId('stringWithMinLength-error');
+    const stringWithMinLengthHasError = (): HTMLElement => queryByTestId('stringWithMinLength-hasError');
 
     // CASE: Expect error message to not be present initially
     expect(stringWithMinLengthError()).toBeNull();
@@ -128,7 +130,7 @@ describe('useFormValidator', () => {
     expect(stringWithMinLengthHasError()).toBeNull();
   });
 
-  it('validates a field with maxLength', async () => {
+  it('validates a field with maxLength', () => {
     type FormValues = {
       stringWithMaxLength: string;
     };
@@ -149,7 +151,8 @@ describe('useFormValidator', () => {
       return (
         <form>
           {/* max length field with custom error message */}
-          <label htmlFor="stringWithMaxLength">stringWithMaxLength
+          <label htmlFor="stringWithMaxLength">
+            stringWithMaxLength
             <input id="stringWithMaxLength" name="stringWithMaxLength" value={values.stringWithMaxLength || ''} onChange={handleChange} onBlur={handleBlur} />
           </label>
           {fields.stringWithMaxLength?.hasError && <p data-testid="stringWithMaxLength-hasError">stringWithMaxLength has error</p>}
@@ -159,9 +162,9 @@ describe('useFormValidator', () => {
     };
 
     const { queryByTestId, getByLabelText } = render(<TestComponent />);
-    const stringWithMaxLength = () => getByLabelText('stringWithMaxLength');
-    const stringWithMaxLengthError = () => queryByTestId('stringWithMaxLength-error');
-    const stringWithMaxLengthHasError = () => queryByTestId('stringWithMaxLength-hasError');
+    const stringWithMaxLength = (): HTMLElement => getByLabelText('stringWithMaxLength');
+    const stringWithMaxLengthError = (): HTMLElement => queryByTestId('stringWithMaxLength-error');
+    const stringWithMaxLengthHasError = (): HTMLElement => queryByTestId('stringWithMaxLength-hasError');
 
     // CASE: Expect error message to not be present initially
     expect(stringWithMaxLengthError()).toBeNull();
@@ -204,7 +207,7 @@ describe('useFormValidator', () => {
     expect(stringWithMaxLengthHasError()).toBeNull();
   });
 
-  it('validates a field by regex pattern', async () => {
+  it('validates a field by regex pattern', () => {
     type FormValues = {
       emailWithPattern: string;
     };
@@ -225,7 +228,8 @@ describe('useFormValidator', () => {
       return (
         <form>
           {/* pattern field with custom error message */}
-          <label htmlFor="emailWithPattern">emailWithPattern
+          <label htmlFor="emailWithPattern">
+            emailWithPattern
             <input id="emailWithPattern" name="emailWithPattern" value={values.emailWithPattern || ''} onChange={handleChange} onBlur={handleBlur} />
           </label>
           {fields.emailWithPattern?.hasError && <p data-testid="emailWithPattern-hasError">emailWithPattern has error</p>}
@@ -235,9 +239,9 @@ describe('useFormValidator', () => {
     };
 
     const { queryByTestId, getByLabelText } = render(<TestComponent />);
-    const emailWithPattern = () => getByLabelText('emailWithPattern');
-    const emailWithPatternError = () => queryByTestId('emailWithPattern-error');
-    const emailWithPatternHasError = () => queryByTestId('emailWithPattern-hasError');
+    const emailWithPattern = (): HTMLElement => getByLabelText('emailWithPattern');
+    const emailWithPatternError = (): HTMLElement => queryByTestId('emailWithPattern-error');
+    const emailWithPatternHasError = (): HTMLElement => queryByTestId('emailWithPattern-hasError');
 
     // CASE: Expect error message to not be present initially
     expect(emailWithPatternError()).toBeNull();
@@ -273,7 +277,7 @@ describe('useFormValidator', () => {
     expect(emailWithPatternHasError()).toBeNull();
   });
 
-  it('validates a field with min', async () => {
+  it('validates a field with min', () => {
     type FormValues = {
       numberWithMin: number;
     };
@@ -294,7 +298,8 @@ describe('useFormValidator', () => {
       return (
         <form>
           {/* pattern field with custom error message */}
-          <label htmlFor="numberWithMin">numberWithMin
+          <label htmlFor="numberWithMin">
+            numberWithMin
             <input id="numberWithMin" name="numberWithMin" value={values.numberWithMin || ''} onChange={handleChange} onBlur={handleBlur} />
           </label>
           {fields.numberWithMin?.hasError && <p data-testid="numberWithMin-hasError">numberWithMin has error</p>}
@@ -304,9 +309,9 @@ describe('useFormValidator', () => {
     };
 
     const { queryByTestId, getByLabelText } = render(<TestComponent />);
-    const numberWithMin = () => getByLabelText('numberWithMin');
-    const numberWithMinError = () => queryByTestId('numberWithMin-error');
-    const numberWithMinHasError = () => queryByTestId('numberWithMin-hasError');
+    const numberWithMin = (): HTMLElement => getByLabelText('numberWithMin');
+    const numberWithMinError = (): HTMLElement => queryByTestId('numberWithMin-error');
+    const numberWithMinHasError = (): HTMLElement => queryByTestId('numberWithMin-hasError');
 
     // CASE: Expect error message to not be present initially
     expect(numberWithMinError()).toBeNull();
@@ -349,7 +354,7 @@ describe('useFormValidator', () => {
     expect(numberWithMinHasError()).toBeNull();
   });
 
-  it('validates a field with max', async () => {
+  it('validates a field with max', () => {
     type FormValues = {
       numberWithMax: number;
     };
@@ -370,7 +375,8 @@ describe('useFormValidator', () => {
       return (
         <form>
           {/* pattern field with custom error message */}
-          <label htmlFor="numberWithMax">numberWithMax
+          <label htmlFor="numberWithMax">
+            numberWithMax
             <input id="numberWithMax" name="numberWithMax" value={values.numberWithMax || ''} onChange={handleChange} onBlur={handleBlur} />
           </label>
           {fields.numberWithMax?.hasError && <p data-testid="numberWithMax-hasError">numberWithMax has error</p>}
@@ -380,9 +386,9 @@ describe('useFormValidator', () => {
     };
 
     const { queryByTestId, getByLabelText } = render(<TestComponent />);
-    const numberWithMax = () => getByLabelText('numberWithMax');
-    const numberWithMaxError = () => queryByTestId('numberWithMax-error');
-    const numberWithMaxHasError = () => queryByTestId('numberWithMax-hasError');
+    const numberWithMax = (): HTMLElement => getByLabelText('numberWithMax');
+    const numberWithMaxError = (): HTMLElement => queryByTestId('numberWithMax-error');
+    const numberWithMaxHasError = (): HTMLElement => queryByTestId('numberWithMax-hasError');
 
     // CASE: Expect error message to not be present initially
     expect(numberWithMaxError()).toBeNull();
@@ -425,7 +431,7 @@ describe('useFormValidator', () => {
     expect(numberWithMaxHasError()).toBeNull();
   });
 
-  it('indicates form is invalid until all fields are valid', async () => {
+  it('indicates form is invalid until all fields are valid', () => {
     type FormValues = {
       field1: string;
       field2: string;
@@ -446,31 +452,35 @@ describe('useFormValidator', () => {
 
       return (
         <form>
-          <label htmlFor="field1">field1
+          <label htmlFor="field1">
+            field1
             <input id="field1" name="field1" value={values.field1 || ''} onChange={handleChange} onBlur={handleBlur} />
           </label>
           {fields.field1?.hasError && <p data-testid="field1-hasError">field1 has error</p>}
           {fields.field1?.showError && <p data-testid="field1-error">{fields.field1.errors[0]}</p>}
-          <label htmlFor="field2">field2
+          <label htmlFor="field2">
+            field2
             <input id="field2" name="field2" value={values.field2 || ''} onChange={handleChange} onBlur={handleBlur} />
           </label>
           {fields.field2?.hasError && <p data-testid="field2-hasError">field2 has error</p>}
           {fields.field2?.showError && <p data-testid="field2-error">{fields.field2.errors[0]}</p>}
           <p data-testid="isValid">{String(isValid)}</p>
-          <button type="submit" disabled={!isValid}>submit</button>
+          <button type="submit" disabled={!isValid}>
+            submit
+          </button>
         </form>
       );
     };
 
     const { getByLabelText, getByText, queryByTestId } = render(<TestComponent />);
-    const field1 = () => getByLabelText('field1');
-    const field1Error = () => queryByTestId('field1-error');
-    const field1HasError = () => queryByTestId('field1-hasError');
-    const field2 = () => getByLabelText('field2');
-    const field2Error = () => queryByTestId('field2-error');
-    const field2HasError = () => queryByTestId('field2-hasError');
-    const isValid = () => queryByTestId('isValid');
-    const submit = () => getByText('submit');
+    const field1 = (): HTMLElement => getByLabelText('field1');
+    const field1Error = (): HTMLElement => queryByTestId('field1-error');
+    const field1HasError = (): HTMLElement => queryByTestId('field1-hasError');
+    const field2 = (): HTMLElement => getByLabelText('field2');
+    const field2Error = (): HTMLElement => queryByTestId('field2-error');
+    const field2HasError = (): HTMLElement => queryByTestId('field2-hasError');
+    const isValid = (): HTMLElement => queryByTestId('isValid');
+    const submit = (): HTMLElement => getByText('submit');
 
     // CASE: Form should be invalid initially
     expect(submit()).toBeDisabled();
@@ -503,7 +513,7 @@ describe('useFormValidator', () => {
     expect(isValid()).toHaveTextContent('true');
   });
 
-  it('can resets form values using setValues', async () => {
+  it('can resets form values using setValues', () => {
     type FormValues = {
       field1: string;
       field2: string;
@@ -521,21 +531,25 @@ describe('useFormValidator', () => {
 
       return (
         <form>
-          <label htmlFor="field1">field1
+          <label htmlFor="field1">
+            field1
             <input id="field1" name="field1" value={values.field1 || ''} onChange={handleChange} onBlur={handleBlur} />
           </label>
-          <label htmlFor="field2">field2
+          <label htmlFor="field2">
+            field2
             <input id="field2" name="field2" value={values.field2 || ''} onChange={handleChange} onBlur={handleBlur} />
           </label>
-          <button type="button" onClick={() => setValues({ field1: 'reset 1', field2: 'reset 2' })}>reset</button>
+          <button type="button" onClick={(): void => setValues({ field1: 'reset 1', field2: 'reset 2' })}>
+            reset
+          </button>
         </form>
       );
     };
 
     const { getByLabelText, getByText } = render(<TestComponent />);
-    const field1 = () => getByLabelText('field1');
-    const field2 = () => getByLabelText('field2');
-    const resetButton = () => getByText('reset');
+    const field1 = (): HTMLElement => getByLabelText('field1');
+    const field2 = (): HTMLElement => getByLabelText('field2');
+    const resetButton = (): HTMLElement => getByText('reset');
 
     // CASE: Form values can be set using setValues
     fireEvent.change(field1(), { target: { value: 'a' } });
@@ -546,7 +560,7 @@ describe('useFormValidator', () => {
     expect(field2()).toHaveValue('reset 2');
   });
 
-  it('sets fields with default values', async () => {
+  it('sets fields with default values', () => {
     type FormValues = {
       field1: string;
       field2: string;
@@ -567,29 +581,31 @@ describe('useFormValidator', () => {
       return (
         <>
           {setupComplete && (
-          <form>
-            <label htmlFor="field1">field1
-              <input id="field1" name="field1" value={String(values.field1)} readOnly />
-            </label>
-            <label htmlFor="field2">field2
-              <input id="field2" name="field2" value={String(values.field2)} readOnly />
-            </label>
-          </form>
+            <form>
+              <label htmlFor="field1">
+                field1
+                <input id="field1" name="field1" value={String(values.field1)} readOnly />
+              </label>
+              <label htmlFor="field2">
+                field2
+                <input id="field2" name="field2" value={String(values.field2)} readOnly />
+              </label>
+            </form>
           )}
         </>
       );
     };
 
     const { getByLabelText } = render(<TestComponent />);
-    const field1 = () => getByLabelText('field1');
-    const field2 = () => getByLabelText('field2');
+    const field1 = (): HTMLElement => getByLabelText('field1');
+    const field2 = (): HTMLElement => getByLabelText('field2');
 
     // CASE: Form values can have default values
     expect(field1()).toHaveValue('default 1');
     expect(field2()).toHaveValue('default 2');
   });
 
-  it('display error message if default value doesn\'t pass validation', async () => {
+  it("display error message if default value doesn't pass validation", () => {
     type FormValues = {
       field1: string;
     };
@@ -606,7 +622,8 @@ describe('useFormValidator', () => {
 
       return (
         <form>
-          <label htmlFor="field1">field1
+          <label htmlFor="field1">
+            field1
             <input id="field1" name="field1" value={values.field1 || ''} readOnly />
           </label>
           {fields.field1?.hasError && <p data-testid="field1-hasError">field1 has error</p>}
@@ -616,8 +633,8 @@ describe('useFormValidator', () => {
     };
 
     const { queryByTestId } = render(<TestComponent />);
-    const field1Error = () => queryByTestId('field1-error');
-    const field1HasError = () => queryByTestId('field1-hasError');
+    const field1Error = (): HTMLElement => queryByTestId('field1-error');
+    const field1HasError = (): HTMLElement => queryByTestId('field1-hasError');
 
     // CASE: Errors should be displayed initially if defaultValue is invalid
     expect(field1Error()).not.toBeNull();
@@ -627,7 +644,7 @@ describe('useFormValidator', () => {
     expect(field1HasError()).toHaveTextContent('field1 has error');
   });
 
-  it('throws an error if a field has both min OR max AND minLength OR maxLength validations', async () => {
+  it('throws an error if a field has both min OR max AND minLength OR maxLength validations', () => {
     type FormValues = {
       field1: string;
       field2: string;
@@ -649,10 +666,12 @@ describe('useFormValidator', () => {
 
       return (
         <form>
-          <label htmlFor="field1">field1
+          <label htmlFor="field1">
+            field1
             <input id="field1" name="field1" value={values.field1 || ''} readOnly />
           </label>
-          <label htmlFor="field2">field2
+          <label htmlFor="field2">
+            field2
             <input id="field2" name="field2" value={values.field2 || ''} readOnly />
           </label>
         </form>
@@ -662,7 +681,7 @@ describe('useFormValidator', () => {
     expect(() => render(<TestComponent />)).toThrowError('A field can only have min/max OR minLength/maxLength validation');
   });
 
-  it('can manually be validated with validate function', async () => {
+  it('can manually be validated with validate function', () => {
     type FormValues = {
       field1: string;
       field2: string;
@@ -682,23 +701,27 @@ describe('useFormValidator', () => {
 
       return (
         <form>
-          <label htmlFor="field1">field1
+          <label htmlFor="field1">
+            field1
             <input id="field1" name="field1" value={values.field1 || ''} readOnly />
           </label>
           {fields.field1?.showError && <p data-testid="field1-error">{fields.field1.errors[0]}</p>}
-          <label htmlFor="field2">field2
+          <label htmlFor="field2">
+            field2
             <input id="field2" name="field2" value={values.field2 || ''} readOnly />
           </label>
           {fields.field2?.showError && <p data-testid="field2-error">{fields.field2.errors[0]}</p>}
-          <button onClick={validate} type="button">validate</button>
+          <button onClick={validate} type="button">
+            validate
+          </button>
         </form>
       );
     };
 
     const { queryByTestId, getByText } = render(<TestComponent />);
-    const field1Error = () => queryByTestId('field1-error');
-    const field2Error = () => queryByTestId('field2-error');
-    const button = () => getByText('validate');
+    const field1Error = (): HTMLElement => queryByTestId('field1-error');
+    const field2Error = (): HTMLElement => queryByTestId('field2-error');
+    const button = (): HTMLElement => getByText('validate');
 
     // CASE: Errors should not be displayed initially if defaultValue is invalid
     expect(field1Error()).toBeNull();

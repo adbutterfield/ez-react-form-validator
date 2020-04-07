@@ -1,16 +1,6 @@
-import {
-  checkIfFieldIsValid,
-  checkIfAllFieldsAreValid,
-  checkIfFormIsValid,
-} from './checks';
-import {
-  validateGreaterThanOrEqualToMin,
-  validateIsRequired,
-  validateLengthIsGreaterThanOrEqualToMin,
-  validatePattern,
-  validateLessThanOrEqualToMax,
-} from './validators';
-import { FormState } from '../types';
+import { checkIfFieldIsValid, checkIfAllFieldsAreValid, checkIfFormIsValid } from './checks';
+import { validateGreaterThanOrEqualToMin, validateIsRequired, validateLengthIsGreaterThanOrEqualToMin, validatePattern, validateLessThanOrEqualToMax } from './validators';
+import { FormState } from './types';
 
 const testFields = {
   testString: {
@@ -58,13 +48,9 @@ describe('checks', () => {
         testNumber: number;
       };
 
-      const validationRules = [
-        (value: number | '' | null) => validateGreaterThanOrEqualToMin(10)<TestValues>(value),
-      ];
+      const validationRules = [(value: number | '' | null): { type: 'min'; isValid: boolean } => validateGreaterThanOrEqualToMin(10)<TestValues>(value)];
 
-      expect(
-        checkIfFieldIsValid<TestValues, keyof TestValues>(validationRules, 0),
-      ).toEqual({
+      expect(checkIfFieldIsValid<TestValues, keyof TestValues>(validationRules, 0)).toEqual({
         errors: ['min'],
         hasError: true,
       });
@@ -76,14 +62,12 @@ describe('checks', () => {
       };
 
       const validationRules = [
-        (value: string | null) => validateIsRequired<TestValues>(value),
-        (value: string | null) => validateLengthIsGreaterThanOrEqualToMin(1)<TestValues>(value),
-        (value: string | null) => validatePattern<TestValues>(/\d{2}/)(value),
+        (value: string | null): { type: 'required'; isValid: boolean } => validateIsRequired<TestValues>(value),
+        (value: string | null): { type: 'minLength'; isValid: boolean } => validateLengthIsGreaterThanOrEqualToMin(1)<TestValues>(value),
+        (value: string | null): { type: 'pattern'; isValid: boolean } => validatePattern<TestValues>(/\d{2}/)(value),
       ];
 
-      expect(
-        checkIfFieldIsValid<TestValues, keyof TestValues>(validationRules, ''),
-      ).toEqual({
+      expect(checkIfFieldIsValid<TestValues, keyof TestValues>(validationRules, '')).toEqual({
         errors: ['required', 'minLength', 'pattern'],
         hasError: true,
       });
@@ -94,16 +78,9 @@ describe('checks', () => {
         testString: string;
       };
 
-      const validationRules = [
-        (value: string | null) => validateLengthIsGreaterThanOrEqualToMin(1)<TestValues>(value),
-      ];
+      const validationRules = [(value: string | null): { type: 'minLength'; isValid: boolean } => validateLengthIsGreaterThanOrEqualToMin(1)<TestValues>(value)];
 
-      expect(
-        checkIfFieldIsValid<TestValues, keyof TestValues>(
-          validationRules,
-          'ok',
-        ),
-      ).toEqual({
+      expect(checkIfFieldIsValid<TestValues, keyof TestValues>(validationRules, 'ok')).toEqual({
         errors: [],
         hasError: false,
       });
@@ -115,17 +92,12 @@ describe('checks', () => {
       };
 
       const validationRules = [
-        (value: string | null) => validateIsRequired<TestValues>(value),
-        (value: string | null) => validateLengthIsGreaterThanOrEqualToMin(1)<TestValues>(value),
-        (value: string | null) => validatePattern<TestValues>(/\d{2}/)(value),
+        (value: string | null): { type: 'required'; isValid: boolean } => validateIsRequired<TestValues>(value),
+        (value: string | null): { type: 'minLength'; isValid: boolean } => validateLengthIsGreaterThanOrEqualToMin(1)<TestValues>(value),
+        (value: string | null): { type: 'pattern'; isValid: boolean } => validatePattern<TestValues>(/\d{2}/)(value),
       ];
 
-      expect(
-        checkIfFieldIsValid<TestValues, keyof TestValues>(
-          validationRules,
-          '11',
-        ),
-      ).toEqual({
+      expect(checkIfFieldIsValid<TestValues, keyof TestValues>(validationRules, '11')).toEqual({
         errors: [],
         hasError: false,
       });
@@ -149,13 +121,13 @@ describe('checks', () => {
         fields: testFields,
         validationRules: {
           testString: [
-            (value) => validateIsRequired<TestValues>(value),
-            (value) => validateLengthIsGreaterThanOrEqualToMin(2)<TestValues>(value),
+            (value): { type: 'required'; isValid: boolean } => validateIsRequired<TestValues>(value),
+            (value): { type: 'minLength'; isValid: boolean } => validateLengthIsGreaterThanOrEqualToMin(2)<TestValues>(value),
           ],
-          testBool: [(value) => validateIsRequired<TestValues>(value)],
+          testBool: [(value): { type: 'required'; isValid: boolean } => validateIsRequired<TestValues>(value)],
           testNumber: [
-            (value) => validateIsRequired<TestValues>(value),
-            (value) => validateLessThanOrEqualToMax(5)<TestValues>(value),
+            (value): { type: 'required'; isValid: boolean } => validateIsRequired<TestValues>(value),
+            (value): { type: 'max'; isValid: boolean } => validateLessThanOrEqualToMax(5)<TestValues>(value),
           ],
         },
         isValid: false,
@@ -166,8 +138,7 @@ describe('checks', () => {
         },
       };
 
-      expect(checkIfAllFieldsAreValid(formStateWithInvalidFields))
-        .toMatchInlineSnapshot(`
+      expect(checkIfAllFieldsAreValid(formStateWithInvalidFields)).toMatchInlineSnapshot(`
         Object {
           "errorMessages": Object {
             "testBool": Object {
@@ -270,13 +241,13 @@ describe('checks', () => {
         fields: testFields,
         validationRules: {
           testString: [
-            (value) => validateIsRequired<TestValues>(value),
-            (value) => validateLengthIsGreaterThanOrEqualToMin(2)<TestValues>(value),
+            (value): { type: 'required'; isValid: boolean } => validateIsRequired<TestValues>(value),
+            (value): { type: 'minLength'; isValid: boolean } => validateLengthIsGreaterThanOrEqualToMin(2)<TestValues>(value),
           ],
-          testBool: [(value) => validateIsRequired<TestValues>(value)],
+          testBool: [(value): { type: 'required'; isValid: boolean } => validateIsRequired<TestValues>(value)],
           testNumber: [
-            (value) => validateIsRequired<TestValues>(value),
-            (value) => validateLessThanOrEqualToMax(5)<TestValues>(value),
+            (value): { type: 'required'; isValid: boolean } => validateIsRequired<TestValues>(value),
+            (value): { type: 'max'; isValid: boolean } => validateLessThanOrEqualToMax(5)<TestValues>(value),
           ],
         },
         isValid: false,
@@ -287,8 +258,7 @@ describe('checks', () => {
         },
       };
 
-      expect(checkIfAllFieldsAreValid(formStateWithValidFields))
-        .toMatchInlineSnapshot(`
+      expect(checkIfAllFieldsAreValid(formStateWithValidFields)).toMatchInlineSnapshot(`
         Object {
           "errorMessages": Object {
             "testBool": Object {
@@ -400,13 +370,13 @@ describe('checks', () => {
         },
         validationRules: {
           testString: [
-            (value) => validateIsRequired<TestValues>(value),
-            (value) => validateLengthIsGreaterThanOrEqualToMin(2)<TestValues>(value),
+            (value): { type: 'required'; isValid: boolean } => validateIsRequired<TestValues>(value),
+            (value): { type: 'minLength'; isValid: boolean } => validateLengthIsGreaterThanOrEqualToMin(2)<TestValues>(value),
           ],
           testBool: [],
           testNumber: [
-            (value) => validateIsRequired<TestValues>(value),
-            (value) => validateLessThanOrEqualToMax(5)<TestValues>(value),
+            (value): { type: 'required'; isValid: boolean } => validateIsRequired<TestValues>(value),
+            (value): { type: 'max'; isValid: boolean } => validateLessThanOrEqualToMax(5)<TestValues>(value),
           ],
         },
         isValid: false,
@@ -490,13 +460,13 @@ describe('checks', () => {
         },
         validationRules: {
           testString: [
-            (value) => validateIsRequired<TestValues>(value),
-            (value) => validateLengthIsGreaterThanOrEqualToMin(2)<TestValues>(value),
+            (value): { type: 'required'; isValid: boolean } => validateIsRequired<TestValues>(value),
+            (value): { type: 'minLength'; isValid: boolean } => validateLengthIsGreaterThanOrEqualToMin(2)<TestValues>(value),
           ],
           testBool: [],
           testNumber: [
-            (value) => validateIsRequired<TestValues>(value),
-            (value) => validateLessThanOrEqualToMax(5)<TestValues>(value),
+            (value): { type: 'required'; isValid: boolean } => validateIsRequired<TestValues>(value),
+            (value): { type: 'max'; isValid: boolean } => validateLessThanOrEqualToMax(5)<TestValues>(value),
           ],
         },
         isValid: false,

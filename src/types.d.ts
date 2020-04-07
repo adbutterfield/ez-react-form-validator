@@ -13,14 +13,14 @@ export type Validation<T> = {
     max?: string;
     minLength?: string;
     maxLength?: string;
-  }
+  };
 };
 
 export type ValidatorSetup<T> = {
   [K in keyof T]: Validation<T>;
 };
 
-export type ValidatorFn<T, K extends keyof T> = (value: T[K] | null | '') => { type: ErrorTypes, isValid: boolean };
+export type ValidatorFn<T, K extends keyof T> = (value: T[K] | null | '') => { type: ErrorTypes; isValid: boolean };
 
 export type Field = {
   touched: boolean;
@@ -56,5 +56,5 @@ export type FormState<T> = {
   isValid: boolean;
   errorMessages: {
     [K in keyof T]: ErrorMessages;
-  }
+  };
 };

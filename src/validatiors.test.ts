@@ -9,8 +9,6 @@ import {
 
 type TestValues = {
   testString: string;
-  testArray: any[];
-  testObject: {[key: string]: any};
   testBool: boolean;
   testNull: null;
   testNumber: number;
@@ -271,7 +269,7 @@ describe('validators', () => {
       expect(validatePattern(/./)).toBeInstanceOf(Function);
     });
 
-    it('returns false if the value doesn\'t match the regular expression', () => {
+    it("returns false if the value doesn't match the regular expression", () => {
       const validatorFn = validatePattern<TestValues>(/match/);
 
       expect(validatorFn('no good')).toEqual({
