@@ -692,7 +692,7 @@ describe('useFormValidator', () => {
         minLength: 10,
       },
       field2: {
-        maxLength: 10,
+        required: true,
       },
     };
 
@@ -732,7 +732,7 @@ describe('useFormValidator', () => {
     expect(field1Error()).not.toBeNull();
     expect(field1Error()).toHaveTextContent('This field does not exceed the min length');
     expect(field2Error()).not.toBeNull();
-    expect(field2Error()).toHaveTextContent('This field exceeds the max length');
+    expect(field2Error()).toHaveTextContent('This field is required');
   });
 
   it('can be reset to the initial state with the reset function', () => {
