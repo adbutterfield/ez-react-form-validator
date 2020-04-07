@@ -16,7 +16,6 @@ export const checkIfFieldIsValid = <T, K extends keyof T>(validationRules: Valid
 
 export const checkIfAllFieldsAreValid = <T>(formState: FormState<T>): FormState<T> => {
   const { fields, values, validationRules } = formState;
-  // const errors = {} as {[K in keyof T]: boolean};
 
   Object.keys(fields).forEach((name) => {
     const value = values[name as keyof T];
@@ -24,7 +23,7 @@ export const checkIfAllFieldsAreValid = <T>(formState: FormState<T>): FormState<
     formState.fields[name as keyof T] = {
       ...formState.fields[name as keyof T],
       hasError,
-      errors,
+      errors: hasError ? errors.map((error) => formState.errorMessages[name as keyof T][error]) : [],
       showError: hasError,
       dirty: true,
     };
