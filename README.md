@@ -238,7 +238,7 @@ type UseFormValidator<T> = {
 Let's look at each of these properties in more detail.
 
 - fields: An object with the name of each field in the form as a key, with an object of type Field (see above) as the value.
-- handleBlur: Blue event handler, which sets the `touched` property to `true`.
+- handleBlur: Blur event handler, which sets the `touched` property to `true`.
 - handleChange: Change event handler, which updates the values, and runs validations on each field.
 - isValid: Boolean set to `true` when all the fields in the form are valid.
 - reset: Returns the form to its original state.
