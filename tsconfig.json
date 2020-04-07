@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "declaration": true,
     "esModuleInterop": true,
     "jsx": "react",
@@ -20,15 +16,8 @@
     "sourceMap": true,
     "strict": true,
     "target": "es2017",
-    "typeRoots": [
-      "./types.d.ts",
-      "./node_modules/@types"
-    ],
+    "typeRoots": ["src/types.d.ts", "./node_modules/@types"]
   },
-  "include": [
-    "src", "types.d.ts",
-  ],
-  "exclude": [
-    "node_modules", "src/*.test.*",
-  ]
+  "include": ["src", "src/types.d.ts"],
+  "exclude": ["node_modules", "src/*.test.*"]
 }
