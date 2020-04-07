@@ -31,7 +31,7 @@ const validatorSetup = {
   lastName: {
     required: true, // Add required validation.
     defaultValue: '', // Set a default value. Setting a default value will trigger validation.
-    minLength: 1, // ninLength and ninLength should only validate strings
+    minLength: 1, // minLength and maxLength should only validate strings
     maxLength: 100,
   },
   age: {
@@ -113,6 +113,8 @@ const validatorSetup: ValidatorSetup<FormFields> = {
     ...other configuration
   },
 };
+
+...everything else the same
 ```
 
 ## Other Cool Features
@@ -141,10 +143,10 @@ function App() {
     handleBlur,
     setupComplete,
     fields,
-    setValues, // Use this to set all/some of your form fields.
-    validate, // Use this to validate your form at any time you might want to.
+    setValues, // Use this to set all/some of your form fields at any time.
+    validate, // Use this to validate all the fields in your form at any time.
     reset, // Use this to return the form to its original state.
-    } = useFormValidator(validatorSetup); // initialize the hook
+    } = useFormValidator(validatorSetup);
 
   return (
     {setupComplete && <form>
@@ -210,6 +212,40 @@ Let's look at each of these properties in more detail.
 - showError: Set to `true` when (in my opinion) you should display error state and error messages. If you don't agree with me, you can create your own logic for when to show errors using a combination of hasError/touched/dirty.
 - isRequired: Set to `true` if the field has a required validation.
 - isValid: Set to `true` if the field has no errors.
+
+## The useFormValidation Hook
+
+The return value of the hook is defined by this type in TypeScript:
+
+```
+type UseFormValidator<T> = {
+  fields: {
+    [K in keyof T]: Field;
+  };
+  handleBlur: (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
+  isValid: boolean;
+  reset: () => void;
+  setupComplete: boolean;
+  setValues: React.Dispatch<React.SetStateAction<{ [K in keyof T]?: T[K] | undefined } | null>>;
+  validate: () => void;
+  values: {
+    [K in keyof T]: T[K] | '';
+  };
+};
+```
+
+Let's look at each of these properties in more detail.
+
+- fields: An object with the name of each field in the form as a key, with an object of type Field (see above) as the value.
+- handleBlur: Blue event handler, which sets the `touched` property to `true`.
+- handleChange: Change event handler, which updates the values, and runs validations on each field.
+- isValid: Boolean set to `true` when all the fields in the form are valid.
+- reset: Returns the form to its original state.
+- setupComplete: Boolean to tell you when the setup is complete.
+- setValues: Sets all/some of your form fields at any time.
+- validate: Validates all the fields in your form at any time.
+- values: Object with all the values of your form, name prop is the key for each corresponding value.
 
 ## More on Configuration
 
