@@ -81,17 +81,15 @@ type UseFormValidator<T> = {
 
 const useFormValidator = <T>(setup: ValidatorSetup<T>): UseFormValidator<T> => {
   const [formState, setFormState] = useState<FormState<T>>(defaultFormState as FormState<T>);
-  const [initialSetup, setInitialSetup] = useState<ValidatorSetup<T>>();
+  const [initialSetup, setInitialSetup] = useState<ValidatorSetup<T>>({} as ValidatorSetup<T>);
   const [setupComplete, setSetupComplete] = useState(false);
   const [newValues, setNewValues] = useState<{ [K in keyof T]?: T[K] } | null>(null);
 
   useEffect(() => {
     setInitialSetup(setup);
     const newFormState = runSetup(setup);
-    if (newFormState) {
-      setFormState(newFormState);
-      setSetupComplete(true);
-    }
+    setFormState(newFormState);
+    setSetupComplete(true);
   }, [setup]);
 
   useEffect(() => {
@@ -174,12 +172,8 @@ const useFormValidator = <T>(setup: ValidatorSetup<T>): UseFormValidator<T> => {
   };
 
   const reset = (): void => {
-    if (initialSetup) {
-      const newFormState = runSetup(initialSetup);
-      if (newFormState) {
-        setFormState(newFormState);
-      }
-    }
+    const newFormState = runSetup(initialSetup);
+    setFormState(newFormState);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void => {
