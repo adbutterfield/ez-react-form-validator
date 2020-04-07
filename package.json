@@ -6,10 +6,11 @@
   "module": "dist/ez-react-form-validator.es.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "npm run build:modern && npm run build:min",
+    "build": "npm run build:modern && npm run build:min && npm run copyfiles",
     "build:modern": "rollup -c",
     "build:min": "rollup -c rollup.min.config.js",
     "bundlesize": "yarn build:min && bundlesize",
+    "copyfiles": "copyfiles -f src/types.d.ts dist",
     "eslint": "eslint --ext .ts,.tsx ./src",
     "test": "jest --config jest.config.js"
   },
@@ -40,6 +41,7 @@
     "@typescript-eslint/parser": "^2.27.0",
     "babel-eslint": "^10.1.0",
     "bundlesize": "^0.18.0",
+    "copyfiles": "^2.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-airbnb-typescript": "^7.2.0",
