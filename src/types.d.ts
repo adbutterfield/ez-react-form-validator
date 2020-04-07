@@ -20,7 +20,7 @@ export type ValidatorSetup<T> = {
   [K in keyof T]: Validation<T>;
 };
 
-export type ValidatorFn<T, K extends keyof T> = (value: T[K] | null | '') => { type: ErrorTypes; isValid: boolean };
+export type ValidatorFn<T, K extends keyof T> = (value: T[K] | '') => { type: ErrorTypes; isValid: boolean };
 
 export type Field = {
   touched: boolean;
@@ -45,7 +45,7 @@ export type ErrorMessages = {
 
 export type FormState<T> = {
   values: {
-    [K in keyof T]: T[K] | null | '';
+    [K in keyof T]: T[K] | '';
   };
   fields: {
     [K in keyof T]: Field;

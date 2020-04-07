@@ -1,6 +1,6 @@
 import { ValidatorFn, FormState, Field, ErrorTypes } from './types';
 
-export const checkIfFieldIsValid = <T, K extends keyof T>(validationRules: ValidatorFn<T, K>[], value: T[K] | null | ''): { hasError: boolean; errors: ErrorTypes[] } => {
+export const checkIfFieldIsValid = <T, K extends keyof T>(validationRules: ValidatorFn<T, K>[], value: T[K] | ''): { hasError: boolean; errors: ErrorTypes[] } => {
   let hasError = false;
   const errors: ErrorTypes[] = [];
   validationRules.forEach((validation) => {
@@ -19,7 +19,7 @@ export const checkIfAllFieldsAreValid = <T>(formState: FormState<T>): FormState<
 
   Object.keys(fields).forEach((name) => {
     const value = values[name as keyof T];
-    const { hasError, errors } = checkIfFieldIsValid<T, keyof T>(validationRules[name as keyof T], value as T[keyof T] | null | '');
+    const { hasError, errors } = checkIfFieldIsValid<T, keyof T>(validationRules[name as keyof T], value as T[keyof T] | '');
     formState.fields[name as keyof T] = {
       ...formState.fields[name as keyof T],
       hasError,

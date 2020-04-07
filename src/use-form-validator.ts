@@ -69,7 +69,7 @@ type UseFormValidator<T> = {
   };
   isValid: boolean;
   values: {
-    [K in keyof T]: T[K] | null | '';
+    [K in keyof T]: T[K] | '';
   };
   handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
   handleBlur: (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
@@ -98,10 +98,10 @@ const useFormValidator = <T>(setup: ValidatorSetup<T>): UseFormValidator<T> => {
 
       Object.entries(newValues).forEach(([name, value]) => {
         // Check if field is valid
-        const { hasError, errors } = checkIfFieldIsValid(newFormState.validationRules[name as keyof T], value as T[keyof T] | null | '');
+        const { hasError, errors } = checkIfFieldIsValid(newFormState.validationRules[name as keyof T], value as T[keyof T] | '');
 
         // Set new value
-        newFormState.values[name as keyof T] = value as T[keyof T] | null | '';
+        newFormState.values[name as keyof T] = value as T[keyof T] | '';
 
         // Set the field
         newFormState.fields[name as keyof T] = {
@@ -132,7 +132,7 @@ const useFormValidator = <T>(setup: ValidatorSetup<T>): UseFormValidator<T> => {
     } as FormState<T>;
 
     Object.entries<Validation<T>>(validatorSetup).forEach(([name, validations]) => {
-      const { defaultValue = null, errorMessages, max, maxLength, min, minLength, required } = validations;
+      const { defaultValue = '', errorMessages, max, maxLength, min, minLength, required } = validations;
 
       // A field cannot have both max and maxLength or min and minLength
       if ((min || max) && (minLength || maxLength)) {
@@ -180,10 +180,10 @@ const useFormValidator = <T>(setup: ValidatorSetup<T>): UseFormValidator<T> => {
     const newFormState = cloneFormState(formState);
     const { name, value } = event.target;
     // Update value
-    newFormState.values[name as keyof T] = (value as unknown) as T[keyof T] | null | '';
+    newFormState.values[name as keyof T] = (value as unknown) as T[keyof T] | '';
 
     // Check if field has any errors
-    const { hasError, errors } = checkIfFieldIsValid(newFormState.validationRules[name as keyof T], (value as unknown) as T[keyof T] | null | '');
+    const { hasError, errors } = checkIfFieldIsValid(newFormState.validationRules[name as keyof T], (value as unknown) as T[keyof T] | '');
 
     // Grab the previous state of the field
     const previousFieldState = newFormState.fields[name as keyof T];

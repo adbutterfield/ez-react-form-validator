@@ -115,7 +115,7 @@ describe('checks', () => {
       const formStateWithInvalidFields: FormState<TestValues> = {
         values: {
           testString: '',
-          testBool: null,
+          testBool: '',
           testNumber: 10,
         },
         fields: testFields,
@@ -217,7 +217,7 @@ describe('checks', () => {
             ],
           },
           "values": Object {
-            "testBool": null,
+            "testBool": "",
             "testNumber": 10,
             "testString": "",
           },
@@ -350,7 +350,7 @@ describe('checks', () => {
       const formStateWithInvalidFields: FormState<TestValues> = {
         values: {
           testString: '',
-          testBool: null,
+          testBool: true,
           testNumber: 10,
         },
         fields: {
@@ -400,7 +400,7 @@ describe('checks', () => {
       const formStateWithInvalidFields: FormState<TestValues> = {
         values: {
           testString: '',
-          testBool: null,
+          testBool: true,
           testNumber: 10,
         },
         fields: {
