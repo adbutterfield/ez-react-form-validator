@@ -67,16 +67,16 @@ type UseFormValidator<T> = {
   fields: {
     [K in keyof T]: Field;
   };
+  handleBlur: (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
   isValid: boolean;
+  reset: () => void;
+  setupComplete: boolean;
+  setValues: React.Dispatch<React.SetStateAction<{ [K in keyof T]?: T[K] | undefined } | null>>;
+  validate: () => void;
   values: {
     [K in keyof T]: T[K] | '';
   };
-  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
-  handleBlur: (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
-  setValues: React.Dispatch<React.SetStateAction<{ [K in keyof T]?: T[K] | undefined } | null>>;
-  setupComplete: boolean;
-  validate: () => void;
-  reset: () => void;
 };
 
 const useFormValidator = <T>(setup: ValidatorSetup<T>): UseFormValidator<T> => {
@@ -241,14 +241,14 @@ const useFormValidator = <T>(setup: ValidatorSetup<T>): UseFormValidator<T> => {
 
   return {
     fields: { ...formState.fields },
-    isValid: formState.isValid,
-    values: { ...formState.values },
-    handleChange,
     handleBlur,
-    setValues: setNewValues,
-    setupComplete,
-    validate: (): void => setFormState(checkIfAllFieldsAreValid<T>(cloneFormState(formState))),
+    handleChange,
+    isValid: formState.isValid,
     reset,
+    setupComplete,
+    setValues: setNewValues,
+    validate: (): void => setFormState(checkIfAllFieldsAreValid<T>(cloneFormState(formState))),
+    values: { ...formState.values },
   };
 };
 
