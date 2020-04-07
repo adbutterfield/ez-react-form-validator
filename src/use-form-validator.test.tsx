@@ -707,6 +707,8 @@ describe('useFormValidator', () => {
     // CASE: Errors should be displayed after triggering validate on invalid fields
     fireEvent.click(button());
     expect(field1Error()).not.toBeNull();
+    expect(field1Error()).toHaveTextContent('This field does not exceed the min length');
     expect(field2Error()).not.toBeNull();
+    expect(field2Error()).toHaveTextContent('This field exceeds the max length');
   });
 });
