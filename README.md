@@ -25,9 +25,11 @@ Simple, easy to use, form validator for React using hooks.
 - You like to use controlled components.
 - You don't want to have to think about when you should display errors.
 
-## Links
+## Example application
 
-- TODO: link to sample app
+[Check it out in action](https://adbutterfield.github.io/ez-react-form-validator-example/)
+
+[And the code](https://github.com/adbutterfield/ez-react-form-validator-example)
 
 ## Install
 
