@@ -8,6 +8,8 @@ Simple, easy to use, form validator for React using hooks.
 [![npm](https://badgen.net/bundlephobia/minzip/ez-react-form-validator)](https://badgen.net/bundlephobia/minzip/ez-react-form-validator)
 [![Coverage Status](https://coveralls.io/repos/github/adbutterfield/ez-react-form-validator/badge.svg?branch=master)](https://coveralls.io/github/adbutterfield/ez-react-form-validator?branch=master)
 
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Super+easy+form+validation+for+React+with+hooks&url=https://github.com/adbutterfield/ez-react-form-validator)
+
 ## About EZ React Form Validator
 
 - Embraces controlled components.
