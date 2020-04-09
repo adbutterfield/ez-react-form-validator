@@ -1,18 +1,41 @@
 {
   "name": "ez-react-form-validator",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Simple, easy to use, form validator for React using hooks.",
+  "author": "<adam.butterfield@ymail.com>",
+  "license": "MIT",
   "main": "dist/ez-react-form-validator.js",
   "module": "dist/ez-react-form-validator.es.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "LICENSE"
+  ],
+  "homepage": "https://github.com/adbutterfield/ez-react-form-validator",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adbutterfield/ez-react-form-validator"
+  },
+  "bugs": {
+    "url": "https://github.com/adbutterfield/ez-react-form-validator/issues"
+  },
+  "unpkg": "dist/ez-react-form-validator.umd.js",
   "scripts": {
+    "prebuild": "npm run clean",
     "build": "npm run build:modern && npm run build:min && npm run copyfiles",
     "build:modern": "rollup -c",
     "build:min": "rollup -c rollup.min.config.js",
     "bundlesize": "yarn build:min && bundlesize",
+    "clean": "rm -rf dist",
     "copyfiles": "copyfiles -f src/types.d.ts dist",
     "eslint": "eslint --ext .ts,.tsx ./src",
-    "test": "jest --config jest.config.js"
+    "format": "prettier --write \"src/*.ts\"",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run eslint",
+    "test": "jest --config jest.config.js",
+    "preversion": "npm run eslint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "keywords": [
     "form-validation",
@@ -26,8 +49,6 @@
     "validation",
     "validator"
   ],
-  "author": "Adam Butterfield",
-  "license": "MIT",
   "peerDependencies": {
     "react": "^16.8.0"
   },
