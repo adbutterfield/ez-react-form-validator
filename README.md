@@ -2,7 +2,11 @@
 
 Simple, easy to use, form validator for React using hooks.
 
-TODO: add badges
+[![npm downloads](https://img.shields.io/npm/dm/ez-react-form-validator.svg?style=flat-square)](https://www.npmjs.com/package/ez-react-form-validator)
+[![npm](https://img.shields.io/npm/dt/ez-react-form-validator.svg?style=flat-square)](https://www.npmjs.com/package/ez-react-form-validator)
+![dep](https://badgen.net/david/dep/adbutterfield/ez-react-form-validator)
+[![npm](https://badgen.net/bundlephobia/minzip/ez-react-form-validator)](https://badgen.net/bundlephobia/minzip/ez-react-form-validator)
+[![Coverage Status](https://coveralls.io/repos/github/adbutterfield/ez-react-form-validator/badge.svg?branch=master)](https://coveralls.io/github/adbutterfield/ez-react-form-validator?branch=master)
 
 ## About EZ React Form Validator
 
