@@ -4,13 +4,22 @@ Simple, easy to use, form validator for React using hooks.
 
 TODO: add badges
 
-## Features
+## About EZ React Form Validator
 
 - Embraces controlled components.
-- Use on any element/component that takes onChange, onBlur, and value as props.
+- Can use it with any element/component that takes onChange, onBlur, and value as props.
 - Super small, with no dependencies.
 - Follows HTML standard for validation (required, min, max, minLength, maxLength, pattern).
 - Written in TypeScript.
+- Damn good test coverage.
+
+## Reasons you might want to use EZ React Form Validator
+
+- You need simple form validation.
+- You think other form validation libraries are overly complicated for your use case.
+- Using your UI library of choice is difficult with other form validation libraries.
+- You like to use controlled components.
+- You don't want to have to think about when you should display errors.
 
 ## Links
 
@@ -46,11 +55,11 @@ const validatorSetup = {
 
 function App() {
   const {
-    isValid, // Boolean to tell you if the form is valid.
+    isValid, // Boolean to indicate if the form is valid.
     values, // Object with all the values of your form, name prop is the key for each corresponding value.
     handleChange, // Pass this to all onChange props.
     handleBlur, // Pass this to all onBlur props.
-    setupComplete, // Boolean to tell you when the setup is complete.
+    setupComplete, // Boolean to indicate when the setup is complete.
     fields // Object with additional information about fields of your form, name prop is the key for each corresponding field. More on fields later.
   } = useFormValidator(validatorSetup); // initialize the hook
 
@@ -104,17 +113,17 @@ type FormFields = {
 // Add the ValidatorSetup type passing in the FormFields you defined
 const validatorSetup: ValidatorSetup<FormFields> = {
   firstName: {
-    ...other configuration
+    // ...other configuration
   },
   lastName: {
-    ...other configuration
+    // ...other configuration
   },
   age: {
-    ...other configuration
+    // ...other configuration
   },
 };
 
-...everything else the same
+// ...everything else the same
 ```
 
 ## Other Cool Features
@@ -125,13 +134,13 @@ import useFormValidator from 'ez-react-form-validator';
 
 const validatorSetup = {
   firstName: {
-    ...other configuration
+    // ...other configuration
   },
   lastName: {
-    ...other configuration
+    // ...other configuration
   },
   age: {
-    ...other configuration
+    // ...other configuration
   },
 };
 
@@ -143,10 +152,18 @@ function App() {
     handleBlur,
     setupComplete,
     fields,
-    setValues, // Use this to set all/some of your form fields at any time.
-    validate, // Use this to validate all the fields in your form at any time.
+    setValues, // Use this to set all/some of your form fields.
+    validate, // Use this to validate all the fields in your form.
     reset, // Use this to return the form to its original state.
     } = useFormValidator(validatorSetup);
+
+  const setDefaultValues = () => {
+    setValues({
+      firstName: 'Boaty',
+      lastName: 'McBoatface',
+      age: 3,
+    });
+  };
 
   return (
     {setupComplete && <form>
@@ -179,11 +196,51 @@ function App() {
       <button type="button" onClick={validate}>Validate</button>
 
       // The setValues function will set values based on name of the field, and validate each field, setting show error to true on any field with errors.
-      <button type="button" onClick={() => setValues({ firstName: 'Boaty', lastName: 'McBoatface', age: 3})}>Set Values</button>
+      <button type="button" onClick={setDefaultValues}>Set Values</button>
 
       // The reset function will reset any errors or values, and make the form the same as when it was initially loaded.
       <button type="button" onClick={reset}>Reset</button>
     </form>}
+  );
+}
+```
+
+## Checkboxes and Radio Buttons
+
+Checkboxes and radio buttons work a little bit differently than text inputs. You need to set the checked property so the UI reflects the values set using setValues and reset functions.
+
+```jsx
+import React from 'react';
+import useFormValidator from 'ez-react-form-validator';
+
+const validatorSetup = {
+  checkboxField: {},
+  radioField: {},
+};
+
+function App() {
+  const { values, handleChange, handleBlur } = useFormValidator(validatorSetup);
+
+  return (
+    <form>
+      <input
+        type="radio"
+        name="radioField"
+        value="radio"
+        checked={values.radioField === 'radio'} // Set checked property like this.
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+
+      <input
+        type="checkbox"
+        name="checkboxField"
+        value="checkbox"
+        checked={values.checkboxField === 'checkbox'} // Set checked property like this.
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    </form>
   );
 }
 ```
@@ -207,9 +264,9 @@ type Field = {
 Let's look at each of these properties in more detail.
 
 - touched: Set to `true` after a field has been blurred once.
-- dirty: Set to `true` after a field receives input (setting a defaultValue also counts).
-- hasError: Set to `true` if a field has an error. Validations are run immediately during setup, so unless there are no validations, or a valid defaultValue is set, this will be `false` initially.
-- showError: Set to `true` when (in my opinion) you should display error state and error messages. If you don't agree with me, you can create your own logic for when to show errors using a combination of hasError/touched/dirty.
+- dirty: Set to `true` after a field receives input (setting a defaultValue or using setValues function also counts).
+- hasError: Set to `true` if a field has an error. Validations are run immediately during setup, so unless there are no validations, or a valid defaultValue is set, this will be `true` initially.
+- showError: Set to `true` when (in the opinion of this library) you should display error state and error messages. If you don't agree, you can create your own logic for when to show errors using a combination of hasError/touched/dirty.
 - isRequired: Set to `true` if the field has a required validation.
 - isValid: Set to `true` if the field has no errors.
 
@@ -242,9 +299,9 @@ Let's look at each of these properties in more detail.
 - handleChange: Change event handler, which updates the values, and runs validations on each field.
 - isValid: Boolean set to `true` when all the fields in the form are valid.
 - reset: Returns the form to its original state.
-- setupComplete: Boolean to tell you when the setup is complete.
-- setValues: Sets all/some of your form fields at any time.
-- validate: Validates all the fields in your form at any time.
+- setupComplete: Boolean to indicate when the setup is complete.
+- setValues: Sets all/some of your form fields.
+- validate: Validates all the fields in your form.
 - values: Object with all the values of your form, name prop is the key for each corresponding value.
 
 ## More on Configuration
@@ -279,11 +336,11 @@ Let's look at each of these properties in more detail.
 
 - defaultValue: Initial value, if any, that you would like to set the field to have. If there is no defaultValue, it will default to an empty string.
 - required: Set to true if the field is required.
-- pattern: Pass a regular expression to validate against the value.
-- min: Validates a number against a numerical minimum.
-- max: Validates a number against a numerical maximum.
-- minLength: Validates a string against a minimum length of characters.
-- maxLength: Validates a string against a maximum length of characters.
+- pattern: Regular expression to validate against the value.
+- min: A numerical minimum to validate against the value. Value must be a number.
+- max: A numerical maximum to validate against the value. Value must be a number.
+- minLength: A minimum length of characters validate against the value. Value must be a string.
+- maxLength: A maximum length of characters validate against the value. Value must be a string.
 - errorMessages: An object, with keys for each type of validation, for setting custom error messages. See default error messages in the next section.
 
 ## Default Error Messages
@@ -296,3 +353,19 @@ By default, each validation type have a different default message.
 - max: 'This field exceeds the max value'
 - minLength: 'This field does not exceed the min length'
 - maxLength: 'This field exceeds the max length'
+
+## Setting Multiple Validation Rules
+
+In most cases, you will only need one validation rule.
+
+### pattern
+
+If you have a pattern rule on a field, you probably don't need required as well (unless your regular expression matches an empty string).
+
+### min and minLength
+
+Unless min or minLength is set to 0, you won't need to also set as required as well.
+
+### max and maxLength
+
+For max and maxLength, you may want to add required as well, or a min/minLength.
