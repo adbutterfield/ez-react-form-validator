@@ -1,4 +1,5 @@
 .DS_Store
+.coveralls.yaml
 .eslintcache
 .npm
 *.log
