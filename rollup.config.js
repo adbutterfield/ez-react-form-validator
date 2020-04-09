@@ -13,6 +13,14 @@ export function getConfig({
       file: `dist/${pkg.name}.es.js`,
       format: 'esm',
     },
+    {
+      name: 'EZReactFormValidator',
+      file: `dist/${pkg.name}.umd.js`,
+      format: 'umd',
+      globals: {
+        react: 'React',
+      },
+    },
   ],
   plugins = [],
 } = {}) {
