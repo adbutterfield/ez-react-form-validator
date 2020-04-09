@@ -1,7 +1,6 @@
 .DS_Store
 .eslintcache
 .npm
-.vscode
 *.log
 *.tgz
 coverage
