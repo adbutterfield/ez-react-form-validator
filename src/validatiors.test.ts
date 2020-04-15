@@ -35,6 +35,19 @@ describe('validators', () => {
       });
     });
 
+    it('returns false if the value passed is not a string', () => {
+      const minLength = 10;
+      const testString = 0;
+
+      const validatorFn = validateLengthIsGreaterThanOrEqualToMin(minLength);
+      const result = validatorFn<TestValues>(testString);
+
+      expect(result).toEqual({
+        type: 'minLength',
+        isValid: false,
+      });
+    });
+
     it('returns true if the length of the value passed is greater than the min length', () => {
       const minLength = 10;
       const testString = 'long enough';
@@ -73,6 +86,19 @@ describe('validators', () => {
       const maxLength = 7;
       const testString = 'too long';
       expect(testString.length).toBeGreaterThan(maxLength);
+
+      const validatorFn = validateLengthIsLessThanOrEqualToMax(maxLength);
+      const result = validatorFn<TestValues>(testString);
+
+      expect(result).toEqual({
+        type: 'maxLength',
+        isValid: false,
+      });
+    });
+
+    it('returns false if the value passed is not a string', () => {
+      const maxLength = 7;
+      const testString = 0;
 
       const validatorFn = validateLengthIsLessThanOrEqualToMax(maxLength);
       const result = validatorFn<TestValues>(testString);
