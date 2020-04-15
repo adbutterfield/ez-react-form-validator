@@ -31,10 +31,10 @@
     "coverage": "jest --coverage --coverageReporters=text-lcov | coveralls",
     "lint": "eslint --ext .ts,.tsx ./src",
     "format": "prettier --write \"src/*.ts\"",
-    "prepare": "npm run build && npm run coverage",
+    "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "test": "jest --config jest.config.js",
-    "preversion": "npm run lint",
+    "preversion": "npm run lint && npm run coverage",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"
   },
