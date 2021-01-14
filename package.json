@@ -51,7 +51,7 @@
     "validator"
   ],
   "peerDependencies": {
-    "react": "^16.8.0"
+    "react": ">=16.8.0"
   },
   "devDependencies": {
     "@rollup/pluginutils": "^4.1.0",
